@@ -1,9 +1,12 @@
 import { DatePipe } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Cotacao } from './cotacao';
+import { Cotacao, Modal } from './cotacao';
 import { CotacaoDolarService } from './cotacaodolar.service';
 import { Subscription } from 'rxjs';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
+import { ModalComponent } from './modal/modal.component';
+
+
 
 @Component({
   selector: 'app-root',
@@ -19,7 +22,8 @@ export class AppComponent implements OnInit, OnDestroy {
   diferenca: string = '';
   menorAtual: boolean = false;
   subscription: Subscription = new Subscription();
-  modal: boolean = false;
+  modal: Modal = new Modal;
+  loading: boolean = false;
   
   constructor(
     private cotacaoDolarService: CotacaoDolarService,
@@ -35,15 +39,16 @@ export class AppComponent implements OnInit, OnDestroy {
     this.dataFinal = this.dateFormat.transform(new Date(), "yyyy-MM-dd") || ''; 
   }
 
-  public getCotacaoAtual() {
-    this.subscription.add(
-      this.cotacaoDolarService.getCotacaoAtual().subscribe((cotacao: Cotacao) => {
-        console.log(cotacao);
-        if(cotacao){
-          this.cotacaoAtual = cotacao.preco;
-        }
-      })
-    );
+  public async getCotacaoAtual(): Promise<void> {
+    this.loading = true;
+    try {
+      const c: Cotacao = await this.cotacaoDolarService.getCotacaoAtual().toPromise();
+      if(c && c.preco != null){
+        this.cotacaoAtual = c.preco;
+      }
+    } catch (error) {
+      this.openModal("Teste", "testando123");
+    }
   }
 
   public getCotacaoPorPeriodo( dataInicialString: string, dataFinalString: string ): void {
@@ -62,7 +67,7 @@ export class AppComponent implements OnInit, OnDestroy {
         })
       )
     } else {
-        console.log('Data inválida');
+      this.openModal("Teste", "testando123");
     }
   }
 
@@ -86,12 +91,15 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   public closeModal(): void {
-    this.modal = false;
+    this.modal.open = false;
+    this.modal.title = '';
+    this.modal.msg = '';
   }
 
-  public openModal(): void {
-    this.modal = true;
-    console.log('openModal');
+  public openModal(title: string, msg: string): void {
+    this.modal.open = true;
+    this.modal.title = title;
+    this.modal.msg = msg;
   }
   
   ngOnDestroy(): void {

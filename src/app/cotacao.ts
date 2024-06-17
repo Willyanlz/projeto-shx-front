@@ -12,3 +12,9 @@ export class Cotacao {
     this.hora = hora;
   }
 }
+
+export class Modal {
+  open: boolean = false;
+  title: string = '';
+  msg: string = '';
+}
