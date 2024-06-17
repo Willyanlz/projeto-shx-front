@@ -1,0 +1,74 @@
+<main>
+  <section class="header-container">
+    <div class="header mt-4">
+      <h1>Cotação do Dólar - R$ {{ cotacaoAtual.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) }}</h1>
+    </div>
+    
+    <div class="buscarPorPeriodo">
+      <div class="data-container">
+        <div class="calendar-tie">
+          <label class="mr-3" for="dataInicial">Data inicial:</label>
+          <input
+            class="input-data"
+            id="dataInicial"
+            type="date"
+            name="dataInicial"
+            [max]="hoje"
+            [(ngModel)]="dataInicial"
+          >
+          <label class="mr-3" for="dataFinal">Data final:</label>
+          <input
+            class="input-data"
+            id="dataFinal"
+            type="date"
+            name="dataFinal"
+            [max]="hoje"
+            [min]="dataInicial"
+            [(ngModel)]="dataFinal"
+          >
+        </div>
+        <div class="switch-cotacao">
+          <mat-slide-toggle
+            (change)="toggleMenorAtual($event)"
+            color="primary"
+          >
+            Exibir somente valores menores do que a cotação atual
+          </mat-slide-toggle>
+        </div>
+      </div>
+      <button mat-raised-button color="primary" type="submit" class="btnPesquisar" (click)="getCotacaoPorPeriodo(dataInicial, dataFinal)" > Pesquisar </button>
+    </div>
+  </section>
+  
+  <div class="body-container">
+    <table 
+      *ngIf="cotacaoPorPeriodoLista.length > 0" 
+      class="table table-striped"
+    >
+      <thead>
+        <tr>
+          <th scope="col">Data</th>
+          <th scope="col">Preço</th>
+          <th scope="col">Diferença</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr  *ngFor="let item of cotacaoPorPeriodoLista; let i = index" [class.table-active]="i % 2 !== 0">
+          <td>{{item.data}}</td>
+          <td>R$ {{item.preco.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}}</td>
+          <td (click)="openModal()">
+            <span class="diferenca">
+              <i class="bi" [ngClass]="{'bi-caret-up-fill': +item.diferenca > 0, 'bi-caret-down-fill': +item.diferenca < 0}"></i>
+              R$ {{ item.diferenca.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) }}
+            </span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  
+  <app-modal
+    *ngIf="modal  "
+    (close)="closeModal()"
+  ></app-modal>
+</main>

@@ -1,0 +1,109 @@
+main {
+    overflow: hidden;
+    display: grid;
+    grid-template-rows: 184px 1fr;
+    position: relative;
+
+    .header-container{
+        grid-row: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        .header {
+            text-align: center;
+            h1{
+                font-size: 50px;
+            }
+        }
+        
+        .buscarPorPeriodo {
+            background-color: aliceblue;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+            .data-container{
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                margin-right: 16px;
+                .calendar-tie{
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    margin-bottom: 16px;
+                    .input-data{
+                        border-radius: 8px;
+                        border: 1px solid grey;
+                    }
+                }
+                .switch-cotacao{
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                }
+            }
+            label {
+                margin-bottom: 0;
+            }
+            label, button {
+                margin-left: 20px;
+            }
+            .btnPesquisar{
+                align-self: center;
+                border-radius: 8px;
+                border: none;
+                &:focus{
+                    outline: none;
+                }
+            }
+        }
+    }
+
+    .body-container{
+        grid-row: 2;
+        display: flex;
+        overflow: auto;
+        height: calc(100vh - 184px);
+        position: relative;
+        .table{
+            margin-top: -1px;
+            margin-bottom: 0;
+            th, td{
+                text-align: center;
+                vertical-align: middle;
+            }
+            thead{
+                border: none !important;
+                tr{
+                    background-color: #FFF;
+                    position: sticky;
+                    top: -0.2px;
+                    box-shadow: 0 2px 20px -3px rgba(0,0,0,0.4);                    
+                }
+            }
+            .diferenca{
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                .bi{
+                    font-size: 20px;
+                    margin-right: 8px;
+                }
+                .bi-caret-down-fill{
+                    color: red;
+                }
+                .bi-caret-up-fill{
+                    color: green;
+                }
+            }
+        }
+    }
+    app-modal{
+        position: absolute;
+        width: 100%;
+        height: 100%;
+    }
+}
