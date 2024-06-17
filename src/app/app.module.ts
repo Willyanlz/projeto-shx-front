@@ -19,7 +19,7 @@ import { ModalComponent } from './modal/modal.component';
     FormsModule,
     BrowserAnimationsModule,
     MatButtonModule,
-    MatSlideToggleModule
+    MatSlideToggleModule,
   ],
   providers: [DatePipe],
   bootstrap: [AppComponent],
