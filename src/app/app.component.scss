@@ -114,20 +114,26 @@ main {
                 align-items: center;
                 justify-content: center;
                 margin-right: 16px;
-                .calendar-tie{
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    margin-bottom: 16px;
-                    .input-data{
-                        border-radius: 8px;
-                        border: 1px solid grey;
-                        padding: 8px;
-                        color: #2C3E50;
+                .laber-calendar{
+                    label {
+                        margin-bottom: 0;
                         font-size: 16px;
-                        background-color: #ECF0F1;
-                        &:focus{
-                            outline: none;
+                    }
+                    .calendar-tie{
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        margin-bottom: 16px;
+                        .input-data{
+                            border-radius: 8px;
+                            border: 1px solid grey;
+                            padding: 8px;
+                            color: #2C3E50;
+                            font-size: 16px;
+                            background-color: #ECF0F1;
+                            &:focus{
+                                outline: none;
+                            }
                         }
                     }
                 }
@@ -137,13 +143,9 @@ main {
                     justify-content: center;
                 }
             }
-            label {
-                margin-bottom: 0;
-            }
-            label, button {
-                margin-left: 20px;
-            }
+
             .btnPesquisar{
+                margin-left: 20px;
                 align-self: center;
                 border-radius: 8px;
                 border: none;
