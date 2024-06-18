@@ -1,8 +1,7 @@
 import { DatePipe } from '@angular/common';
-import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Cotacao, Modal } from './cotacao';
 import { CotacaoDolarService } from './cotacaodolar.service';
-import { Subscription } from 'rxjs';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 
 @Component({
@@ -10,7 +9,7 @@ import { MatSlideToggleChange } from '@angular/material/slide-toggle';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent implements OnInit, OnDestroy {
+export class AppComponent implements OnInit {
   cotacaoAtual: number = 0;
   cotacaoPorPeriodoLista: Cotacao[] = [];
   dataInicial: string = '';
@@ -21,7 +20,6 @@ export class AppComponent implements OnInit, OnDestroy {
   modal: Modal = new Modal;
   loading: boolean = false;
   diaAnterior: number = 0;
-  // screenWidth: number = 0;
   
   constructor(
     private cotacaoDolarService: CotacaoDolarService,
@@ -30,7 +28,6 @@ export class AppComponent implements OnInit, OnDestroy {
   
   async ngOnInit(): Promise<void> {
     await this.getCotacaoAtual();
-    await
     await this.getDiaAnterior();
     this.hoje = this.dateFormat.transform(new Date(), "yyyy-MM-dd") || '';
     const month = new Date().getMonth();
@@ -81,7 +78,9 @@ export class AppComponent implements OnInit, OnDestroy {
         this.openModal("Erro", "Tivemos um erro ao obter os dados!");
       }
     }finally{
-      this.loading = false;
+      setTimeout(() => {
+        this.loading = false;
+      }, 2000);
     }
   }
 
@@ -112,7 +111,6 @@ export class AppComponent implements OnInit, OnDestroy {
         return true;
       }
     }
-    
     return false;
   }
 
@@ -129,21 +127,5 @@ export class AppComponent implements OnInit, OnDestroy {
     this.modal.open = true;
     this.modal.title = title;
     this.modal.msg = msg;
-  }
-
-  // @HostListener('window:resize', ['$event'])
-  // onResize(event: any) {
-  //   this.sizeWindow();
-  //   console.log(event, typeof(event))
-  // }
-  
-  // public sizeWindow() {
-  //   const screenWidth = screen.width;
-  //   console.log('Screen Width:', screenWidth);
-  //   this.screenWidth = screenWidth;
-  // }
-  
-  ngOnDestroy(): void {
-    //
   }
 }
