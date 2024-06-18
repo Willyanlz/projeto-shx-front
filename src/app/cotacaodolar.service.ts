@@ -5,7 +5,7 @@ import { Cotacao } from './cotacao';
 
 @Injectable({ providedIn: 'root' })
 export class CotacaoDolarService {
-  private apiServerUrl = 'https://awpserver.duckdns.org:3333/backend';
+  private apiServerUrl = 'http://awpserver.duckdns.org:3333/backend';
 
   constructor(private http: HttpClient) {}
 

@@ -30,7 +30,7 @@ export class AppComponent implements OnInit, OnDestroy {
   
   async ngOnInit(): Promise<void> {
     await this.getCotacaoAtual();
-    // await this.getDiaAnterior();
+    await this.getDiaAnterior();
     this.hoje = this.dateFormat.transform(new Date(), "yyyy-MM-dd") || '';
     const month = new Date().getMonth();
     const year = new Date().getFullYear();
@@ -45,7 +45,7 @@ export class AppComponent implements OnInit, OnDestroy {
         this.cotacaoAtual = c.preco;
       }
     } catch (error) {
-      this.openModal("Erro ao obter cotação atual", "Por favor tente novamente mais tarde.");
+      // this.openModal("Erro ao obter cotação atual", "Por favor tente novamente mais tarde.");
     }
   }
 
@@ -71,7 +71,7 @@ export class AppComponent implements OnInit, OnDestroy {
           });
         }
     } catch (error) {
-        console.log(error);
+      console.log(error);
     }finally{
       if(this.cotacaoPorPeriodoLista.length == 0) var delay: number = 2000; else delay = 200;
       setTimeout(() => {
