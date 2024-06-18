@@ -3,25 +3,111 @@ main {
     display: grid;
     grid-template-rows: 184px 1fr;
     position: relative;
+    height: 100vh;
+
+    @media screen and (max-width: 600px){
+        grid-template-rows: 316px 1fr;
+        .header-container{
+            justify-content: flex-start;
+        }
+        .header{
+            height: 152px !important;
+            overflow: hidden;
+            padding: 16px;
+            h1{
+                flex-wrap: wrap;
+                margin-bottom: 0;
+                white-space: wrap;
+                max-width: 300px;
+                line-height: 41px;
+            }
+        }
+        .buscarPorPeriodo {
+            flex-direction: column;
+            justify-content: flex-start;
+            overflow: hidden;
+            padding: 0;
+            border-radius: 16px;
+            .data-container{
+                flex-direction: row !important;
+                justify-content: space-between !important;
+                margin-right: 0 !important;
+                width: 100%;
+                .calendar-tie{
+                    flex-direction: column;
+                    display: flex;
+                    align-items: flex-start !important;
+                    margin-right: 16px;
+                    gap: 8px;
+                    
+                    .label-calendar{
+                        display: flex;
+                        align-items: flex-start;
+                        flex-direction: column;
+                        gap: 8px;
+                        label{
+                            margin: 0;
+                        }
+
+                    }
+                    .input-data{
+                        &:focus{
+                            outline: none;
+                        }
+                    }
+                }
+                .switch-cotacao{
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    overflow: hidden;
+                    height: 100%;
+                }
+                .btnPesquisar{
+                    margin-left: 0 !important;
+                }
+            }
+        }
+        .body-container{
+           width: 100%;
+           th, td{
+                padding: 5px;
+                max-width: 150px !important;
+            }
+        }
+    }
 
     .header-container{
         grid-row: 1;
         display: flex;
         flex-direction: column;
-        justify-content: space-between;
+        justify-content: flex-start;
+        background-color: #FFFFFF;
+        color: #005581;
         .header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
             text-align: center;
+            padding: 16px;
+            height: 120px;
             h1{
                 font-size: 50px;
+                font-family: "Bebas Neue", sans-serif;
+                font-weight: 400;
+                font-style: normal;
+                margin-bottom: 0;
             }
         }
         
         .buscarPorPeriodo {
-            background-color: aliceblue;
+            background-color: #015580;
+            color: #FFFFFF;
             display: flex;
             align-items: center;
             justify-content: center;
             padding: 16px;
+            height: 100%;
             .data-container{
                 display: flex;
                 flex-direction: column;
@@ -36,6 +122,13 @@ main {
                     .input-data{
                         border-radius: 8px;
                         border: 1px solid grey;
+                        padding: 8px;
+                        color: #2C3E50;
+                        font-size: 16px;
+                        background-color: #ECF0F1;
+                        &:focus{
+                            outline: none;
+                        }
                     }
                 }
                 .switch-cotacao{
@@ -54,6 +147,8 @@ main {
                 align-self: center;
                 border-radius: 8px;
                 border: none;
+                background-color: #FF8614;
+                color: #FFFFFF;
                 &:focus{
                     outline: none;
                 }
@@ -64,8 +159,8 @@ main {
     .body-container{
         grid-row: 2;
         display: flex;
-        overflow: auto;
-        height: calc(100vh - 184px);
+        overflow-y: auto;
+        overflow-x: hidden;
         position: relative;
         .table{
             margin-top: -1px;
@@ -80,7 +175,22 @@ main {
                     background-color: #FFF;
                     position: sticky;
                     top: -0.2px;
-                    box-shadow: 0 2px 20px -3px rgba(0,0,0,0.4);                    
+                    box-shadow: 0 2px 20px -3px rgba(0,0,0,0.4); 
+                    th{
+                        color: #55575A;
+                        font-size: 16px;
+                        text-transform: uppercase;
+                    }                   
+                }
+            }
+            tbody{
+                td{
+                    border-bottom: 1px solid #4a4f5393;
+                    border-right: 1px solid #4a4f5393;
+                    font-size: 16px;
+                    &:last-child{
+                        border-right: none;
+                    }
                 }
             }
             .diferenca{
@@ -100,6 +210,54 @@ main {
                 }
             }
         }
+        .not-register{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            height: 100%;
+            width: 100%;
+            i{
+                margin-top: -150px;
+            }
+            i{
+                font-size: 70px;
+                color: #FF8614;
+                margin-bottom: 24px;
+            }
+            p{
+                font-size: 32px;
+                color: #FF8614;
+                font-family: "Bebas Neue", sans-serif;
+                font-weight: 400;
+                font-style: normal;
+            }
+        }
+        .loader-container{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+            img{
+                margin-top: -150px;
+                width: 50%;
+                height: 30%;
+                object-fit: contain;
+                animation: imgloader 1s linear infinite alternate;
+            }
+            @keyframes imgloader {
+                0% {
+                    opacity: 0;
+                    transform: scale(0.2);
+                }
+                100% {
+                    opacity: 0.8;
+                    transform: scale(0.5);
+                }
+            } 
+        }
+        
     }
     app-modal{
         position: absolute;
@@ -107,3 +265,46 @@ main {
         height: 100%;
     }
 }
+
+::ng-deep mat-slide-toggle {
+    height: 100% !important;	
+    &.mat-checked {
+      .mat-slide-toggle-bar {
+        background-color: #ebbe94 !important;
+      }
+      .mat-slide-toggle-thumb {
+        background-color: #ff8614 !important;
+      }
+    }
+  }
+  
+  @media screen and (max-width: 700px) {
+    ::ng-deep mat-slide-toggle {
+        height: 100% !important;
+        align-items: center !important;
+        display: flex !important;
+    }
+    ::ng-deep .mat-slide-toggle-label {
+      display: flex;
+      height: 100% !important;
+      flex-direction: column !important;
+      justify-content: center !important;
+      .mat-slide-toggle-bar{
+        margin-bottom: 8px;
+      }
+      .mat-slide-toggle-content{
+        text-align: center !important;
+        letter-spacing: .19px;
+      }
+    }
+  
+    ::ng-deep .mat-slide-toggle-content {
+      white-space: wrap !important;
+    }
+  
+    ::ng-deep .mat-slide-toggle-label {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+  }
