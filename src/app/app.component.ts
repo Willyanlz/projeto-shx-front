@@ -46,7 +46,7 @@ export class AppComponent implements OnInit, OnDestroy {
         this.cotacaoAtual = c.preco;
       }
     } catch (error) {
-      // this.openModal("Erro ao obter cotação atual", "Por favor tente novamente mais tarde.");
+      this.openModal("Erro ao obter cotação atual", "Por favor tente novamente mais tarde.");
     }
   }
 
