@@ -1,5 +1,5 @@
 import { DatePipe } from '@angular/common';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { Cotacao, Modal } from './cotacao';
 import { CotacaoDolarService } from './cotacaodolar.service';
 import { Subscription } from 'rxjs';
@@ -18,10 +18,10 @@ export class AppComponent implements OnInit, OnDestroy {
   hoje: string = '';
   diferenca: string = '';
   menorAtual: boolean = false;
-  subscription: Subscription = new Subscription();
   modal: Modal = new Modal;
   loading: boolean = false;
   diaAnterior: number = 0;
+  // screenWidth: number = 0;
   
   constructor(
     private cotacaoDolarService: CotacaoDolarService,
@@ -130,8 +130,20 @@ export class AppComponent implements OnInit, OnDestroy {
     this.modal.title = title;
     this.modal.msg = msg;
   }
+
+  // @HostListener('window:resize', ['$event'])
+  // onResize(event: any) {
+  //   this.sizeWindow();
+  //   console.log(event, typeof(event))
+  // }
+  
+  // public sizeWindow() {
+  //   const screenWidth = screen.width;
+  //   console.log('Screen Width:', screenWidth);
+  //   this.screenWidth = screenWidth;
+  // }
   
   ngOnDestroy(): void {
-    this.subscription.unsubscribe();
+    //
   }
 }
