@@ -24,7 +24,7 @@ export class CotacaoDolarService {
     return this.http.get<Cotacao[]>(`${this.apiServerUrl}/moeda/${dataInicial}&${dataFinal}`, { params: param });
   }
 
-  public getDiaAnterior(): Observable<Cotacao> {
-    return this.http.get<Cotacao>(`${this.apiServerUrl}/moeda/anterior`);
+  public getDiaAnterior(): Observable<Cotacao[]> {
+    return this.http.get<Cotacao[]>(`${this.apiServerUrl}/moeda/anterior`);
   }
 }

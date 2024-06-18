@@ -74,6 +74,11 @@ main {
                 padding: 5px;
                 max-width: 150px !important;
             }
+            thead{
+                tr{
+                    height: 45px;
+                }
+            }
         }
     }
 
@@ -253,7 +258,7 @@ main {
                 }
                 100% {
                     opacity: 0.8;
-                    transform: scale(0.5);
+                    transform: scale(.8);
                 }
             } 
         }

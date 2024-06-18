@@ -29,7 +29,8 @@ export class AppComponent implements OnInit, OnDestroy {
   ) {}
   
   async ngOnInit(): Promise<void> {
-    await this.getCotacaoAtual(); this.getDiaAnterior();
+    await this.getCotacaoAtual();
+    await this.getDiaAnterior();
     this.hoje = this.dateFormat.transform(new Date(), "yyyy-MM-dd") || '';
     const month = new Date().getMonth();
     const year = new Date().getFullYear();
@@ -57,34 +58,39 @@ export class AppComponent implements OnInit, OnDestroy {
     }
 
     try {
-        this.cotacaoPorPeriodoLista = [];
-        const dataInicial = this.dateFormat.transform(dataInicialString, "MM-dd-yyyy") || '';
-        const dataFinal = this.dateFormat.transform(dataFinalString, "MM-dd-yyyy") || '';
-       
-        const res: Cotacao[] = await this.cotacaoDolarService.getCotacaoPorPeriodoFront(dataInicial, dataFinal, this.menorAtual).toPromise();
-  
-        if(res){
-          this.cotacaoPorPeriodoLista = res;
-          this.cotacaoPorPeriodoLista.forEach((el: Cotacao) => {
-            el.diferenca = el.preco - this.cotacaoAtual;
-          });
-        }
-    } catch (error) {
-        console.log(error);
-    }finally{
-      if(this.cotacaoPorPeriodoLista.length == 0) var delay: number = 2000; else delay = 200;
-      setTimeout(() => {
-        this.loading = false;
+      this.cotacaoPorPeriodoLista = [];
+      const dataInicial = this.dateFormat.transform(dataInicialString, "MM-dd-yyyy") || '';
+      const dataFinal = this.dateFormat.transform(dataFinalString, "MM-dd-yyyy") || '';
+      
+      const res: Cotacao[] = await this.cotacaoDolarService.getCotacaoPorPeriodoFront(dataInicial, dataFinal, this.menorAtual).toPromise();
+
+      if(res){
+        this.cotacaoPorPeriodoLista = res;
+        this.cotacaoPorPeriodoLista.forEach((el: Cotacao) => {
+          el.diferenca = el.preco - this.cotacaoAtual;
+        });
+      }
+      if(this.cotacaoPorPeriodoLista.length == 0){
+        this.openModal("Erro", "Nenhum dado encontrado para o periodo informado!");
+      }
+    }catch (error) {
+      if(this.menorAtual){
+        this.openModal("Erro", "Nenhum dado encontrado pois valor atual não foi encontrado!");
+      }else{
         this.openModal("Erro", "Tivemos um erro ao obter os dados!");
-      }, delay);
+      }
+    }finally{
+      this.loading = false;
     }
   }
 
   public async getDiaAnterior(): Promise<void> {
     try {
-      const c: Cotacao = await this.cotacaoDolarService.getDiaAnterior().toPromise();
-      if(c && c.preco != null){
-        this.diaAnterior = c.preco;
+      const c: Cotacao[] = await this.cotacaoDolarService.getDiaAnterior().toPromise();
+      if(c){
+        c.forEach((el: Cotacao) => {
+          this.diaAnterior = el.preco;
+        });
       }
     } catch (error) {
       console.log("Erro ao obter cotação do dia anterior. Por favor tente novamente mais tarde.");
