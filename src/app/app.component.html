@@ -1,7 +1,15 @@
 <main>
   <section class="header-container">
     <div class="header">
-      <h1>Cotação do Dólar &nbsp; R$ {{ cotacaoAtual.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) }}</h1>
+      <div class="valor-atual">
+        <h1>
+          Cotação do Dólar &nbsp; R$ 
+          <span>
+            {{ cotacaoAtual.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}}
+            <i class="bi" [ngClass]="{'bi-caret-up-fill': +cotacaoAtual > diaAnterior, 'bi-caret-down-fill': +cotacaoAtual < diaAnterior}"></i>
+          </span>
+        </h1>
+      </div>
     </div>
     
     <div class="buscarPorPeriodo">
@@ -16,6 +24,8 @@
               name="dataInicial"
               [max]="hoje"
               [(ngModel)]="dataInicial"
+              style="border-radius: 8px; padding: 8px; font-size: 16px;  color: #2C3E50;"
+
             >
           </div>
           <div class="label-calendar">
@@ -28,6 +38,7 @@
               [max]="hoje"
               [min]="dataInicial"
               [(ngModel)]="dataFinal"
+              style="border-radius: 8px; padding: 8px; font-size: 16px;  color: #2C3E50;"
             >
           </div>
         </div>

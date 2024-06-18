@@ -3,10 +3,10 @@ main {
     display: grid;
     grid-template-rows: 184px 1fr;
     position: relative;
-    height: 100vh;
+    height: 100%;
 
     @media screen and (max-width: 600px){
-        grid-template-rows: 316px 1fr;
+        grid-template-rows: 329px 1fr;
         .header-container{
             justify-content: flex-start;
         }
@@ -26,11 +26,10 @@ main {
             flex-direction: column;
             justify-content: flex-start;
             overflow: hidden;
-            padding: 0;
+            padding: 8px !important;
             border-radius: 16px;
             .data-container{
                 flex-direction: row !important;
-                justify-content: space-between !important;
                 margin-right: 0 !important;
                 width: 100%;
                 .calendar-tie{
@@ -96,12 +95,25 @@ main {
             text-align: center;
             padding: 16px;
             height: 120px;
-            h1{
-                font-size: 50px;
-                font-family: "Bebas Neue", sans-serif;
-                font-weight: 400;
-                font-style: normal;
-                margin-bottom: 0;
+            .valor-atual{
+                display: flex;
+                align-items: center;
+                h1{
+                    font-size: 50px;
+                    font-family: "Bebas Neue", sans-serif;
+                    font-weight: 400;
+                    font-style: normal;
+                    margin-bottom: 0;
+                }
+                i{
+                    font-size: 50px;
+                }
+                .bi-caret-down-fill{
+                    color: red;
+                }
+                .bi-caret-up-fill{
+                    color: green;
+                }
             }
         }
         
@@ -123,18 +135,31 @@ main {
                     display: flex;
                     align-items: center;
                     justify-content: center;
+                    gap: 16px;
                     margin-bottom: 16px;
-                    .input-data{
-                        border-radius: 8px;
-                        border: 1px solid grey;
-                        padding: 8px;
-                        color: #2C3E50;
-                        font-size: 16px;
-                        background-color: #ECF0F1;
-                        &:focus{
-                            outline: none;
+                    .laber-calendar{
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        margin-bottom: 16px;
+
+                        label {
+                            margin-bottom: 0;
+                            font-size: 16px;
                         }
-                    }
+                            #dataFinal{
+                                border-radius: 8px;
+                                border: 1px solid grey;
+                                padding: 8px;
+                                color: #2C3E50;
+                                font-size: 16px;
+                                background-color: #ECF0F1;
+                                width: 10%;
+                                &:focus{
+                                    outline: none;
+                                }
+                            }
+                        }
                 }
                 .switch-cotacao{
                     display: flex;
@@ -142,13 +167,9 @@ main {
                     justify-content: center;
                 }
             }
-            label {
-                margin-bottom: 0;
-            }
-            label, button {
-                margin-left: 20px;
-            }
+
             .btnPesquisar{
+                margin-left: 20px;
                 align-self: center;
                 border-radius: 8px;
                 border: none;
@@ -236,6 +257,7 @@ main {
                 font-family: "Bebas Neue", sans-serif;
                 font-weight: 400;
                 font-style: normal;
+                line-height: 29px;
             }
         }
         .loader-container{
@@ -283,7 +305,7 @@ main {
     }
   }
   
-  @media screen and (max-width: 700px) {
+  @media screen and (max-width: 600px) {
     ::ng-deep mat-slide-toggle {
         height: 100% !important;
         align-items: center !important;
