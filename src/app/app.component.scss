@@ -6,7 +6,7 @@ main {
     height: 100vh;
 
     @media screen and (max-width: 600px){
-        grid-template-rows: 316px 1fr;
+        grid-template-rows: 329px 1fr;
         .header-container{
             justify-content: flex-start;
         }
@@ -26,11 +26,11 @@ main {
             flex-direction: column;
             justify-content: flex-start;
             overflow: hidden;
-            padding: 0;
+            padding: 8px !important;
             border-radius: 16px;
             .data-container{
                 flex-direction: row !important;
-                justify-content: space-between !important;
+                justify-content: space-around !important;
                 margin-right: 0 !important;
                 width: 100%;
                 .calendar-tie{
@@ -114,28 +114,35 @@ main {
                 align-items: center;
                 justify-content: center;
                 margin-right: 16px;
-                .laber-calendar{
-                    label {
-                        margin-bottom: 0;
-                        font-size: 16px;
-                    }
-                    .calendar-tie{
+                .calendar-tie{
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 16px;
+                    margin-bottom: 16px;
+                    .laber-calendar{
                         display: flex;
                         align-items: center;
                         justify-content: center;
                         margin-bottom: 16px;
-                        .input-data{
-                            border-radius: 8px;
-                            border: 1px solid grey;
-                            padding: 8px;
-                            color: #2C3E50;
+
+                        label {
+                            margin-bottom: 0;
                             font-size: 16px;
-                            background-color: #ECF0F1;
-                            &:focus{
-                                outline: none;
+                        }
+                            #dataFinal{
+                                border-radius: 8px;
+                                border: 1px solid grey;
+                                padding: 8px;
+                                color: #2C3E50;
+                                font-size: 16px;
+                                background-color: #ECF0F1;
+                                width: 10%;
+                                &:focus{
+                                    outline: none;
+                                }
                             }
                         }
-                    }
                 }
                 .switch-cotacao{
                     display: flex;
@@ -233,6 +240,7 @@ main {
                 font-family: "Bebas Neue", sans-serif;
                 font-weight: 400;
                 font-style: normal;
+                line-height: 29px;
             }
         }
         .loader-container{
@@ -280,7 +288,7 @@ main {
     }
   }
   
-  @media screen and (max-width: 700px) {
+  @media screen and (max-width: 600px) {
     ::ng-deep mat-slide-toggle {
         height: 100% !important;
         align-items: center !important;

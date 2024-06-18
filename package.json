@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "celular": "ng serve --host 192.168.15.173 --configuration=development",
+    "celular": "ng serve --host 192.168.15.22 --configuration=development",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
