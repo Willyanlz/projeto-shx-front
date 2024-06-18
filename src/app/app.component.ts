@@ -29,7 +29,8 @@ export class AppComponent implements OnInit, OnDestroy {
   ) {}
   
   async ngOnInit(): Promise<void> {
-    await this.getCotacaoAtual(); this.getDiaAnterior();
+    await this.getCotacaoAtual();
+    // await this.getDiaAnterior();
     this.hoje = this.dateFormat.transform(new Date(), "yyyy-MM-dd") || '';
     const month = new Date().getMonth();
     const year = new Date().getFullYear();
