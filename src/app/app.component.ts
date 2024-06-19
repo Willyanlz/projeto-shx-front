@@ -64,6 +64,7 @@ export class AppComponent implements OnInit {
     this.loading = true;
     if(!this.valideDate()){
       this.initDatas();
+      this.cotacaoPorPeriodoLista = [];
       this.loading = false;
       return;
     }
@@ -119,14 +120,24 @@ export class AppComponent implements OnInit {
       if ((dataInicial > dataFinal)) {
         this.openModal("Erro", "Data inicial não podem ser maior que data final!");
         return false;
-      }else if(dataFinal > new Date() || dataInicial > new Date()){
+      }
+      else if(dataFinal > new Date() || dataInicial > new Date()){
         this.openModal("Erro", "Nenhuma das datas pode ser maior que a data atual!");
         return false;
+      }
+    }else{
+      if(!this.dataInicial && !this.dataFinal){
+        this.openModal("Erro", "Nenhuma das datas podem ser vazias!");
+        return false;
+      }else if(!this.dataInicial){
+        this.openModal("Erro", "Data inicial não pode ser vazia!");
+        return false;
       }else{
-        return true;
+        this.openModal("Erro", "Data final não pode ser vazia!");
+        return false;
       }
     }
-    return false;
+    return true;
   }
 
   public closeModal(reload?: boolean): void {
