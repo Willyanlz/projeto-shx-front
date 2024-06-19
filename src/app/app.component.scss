@@ -1,91 +1,81 @@
 main {
     overflow: hidden;
-    display: grid;
-    grid-template-rows: 184px 1fr;
+    display: flex;
+    flex-direction: column;
     position: relative;
     height: 100%;
+    width: 100%;
 
-    @media screen and (max-width: 600px){
-        grid-template-rows: 329px 1fr;
+    @media screen and (min-width: 600px){
         .header-container{
-            justify-content: flex-start;
-        }
-        .header{
-            height: 152px !important;
-            overflow: hidden;
-            padding: 16px;
-            h1{
-                flex-wrap: wrap;
-                margin-bottom: 0;
-                white-space: wrap;
-                max-width: 300px;
-                line-height: 41px;
+            .header {
+                h1{
+                    font-size: 50px !important;
+                }
+                span{
+                    font-size: 50px !important;
+                    gap: 8px !important;
+                    i{
+                        font-size: 45px !important;
+                    }
+                }
             }
         }
         .buscarPorPeriodo {
-            flex-direction: column;
-            justify-content: flex-start;
-            overflow: hidden;
-            padding: 8px !important;
-            border-radius: 16px;
+            border-radius: 0 !important;
+            flex-direction: column !important;
+            height: 156px !important;
+            gap: 24px !important;
             .data-container{
                 flex-direction: row !important;
-                margin-right: 0 !important;
-                width: 100%;
+                align-items: center;
+                justify-content: center;
+                gap: 16px;
                 .calendar-tie{
-                    flex-direction: column;
-                    display: flex;
-                    align-items: flex-start !important;
+                    gap: 24px !important;
+                    width: 100%;
                     margin-right: 16px;
-                    gap: 8px;
-                    
                     .label-calendar{
                         display: flex;
                         align-items: flex-start;
+                        justify-content: center;
                         flex-direction: column;
-                        gap: 8px;
-                        label{
-                            margin: 0;
+                        .input-data{
+                            width: 142px !important;
                         }
-
-                    }
-                    .input-data{
-                        &:focus{
-                            outline: none;
+                        label {
+                            font-family: "Bebas Neue", sans-serif;
                         }
                     }
                 }
+                
                 .switch-cotacao{
                     display: flex;
                     align-items: center;
                     justify-content: center;
-                    overflow: hidden;
-                    height: 100%;
-                }
-                .btnPesquisar{
-                    margin-left: 0 !important;
                 }
             }
-        }
-        .body-container{
-           width: 100%;
-           th, td{
-                padding: 5px;
-                max-width: 150px !important;
-            }
-            thead{
-                tr{
-                    height: 45px;
+            .btnPesquisar{
+                align-self: center;
+                border-radius: 8px;
+                border: none;
+                background-color: #FF8614;
+                color: #FFFFFF;
+                width: 142px;
+                min-width: 142px !important;
+                &:focus{
+                    outline: none;
                 }
             }
+
         }
     }
 
     .header-container{
-        grid-row: 1;
+        height: 266px;
+        width: 100%;
         display: flex;
         flex-direction: column;
-        justify-content: flex-start;
         background-color: #FFFFFF;
         color: #005581;
         .header {
@@ -94,19 +84,28 @@ main {
             justify-content: center;
             text-align: center;
             padding: 16px;
-            height: 120px;
-            .valor-atual{
-                display: flex;
+            height: 110px;
+            min-height: 110px;
+            width: 100%;
+            gap: 16px;
+            h1{
+                font-size: 35px;
+                font-family: "Bebas Neue", sans-serif;
+                font-weight: 400;
+                font-style: normal;
+                margin-bottom: 0;
+                line-height: 35px;
+                margin-right: 8px;
+            }
+            span{
+                white-space: nowrap;
                 align-items: center;
-                h1{
-                    font-size: 50px;
-                    font-family: "Bebas Neue", sans-serif;
-                    font-weight: 400;
-                    font-style: normal;
-                    margin-bottom: 0;
-                }
+                display: flex;
+                font-size: 35px;
+                font-family: "Bebas Neue", sans-serif;
+                font-weight: 700;
                 i{
-                    font-size: 50px;
+                    font-size: 35px;
                 }
                 .bi-caret-down-fill{
                     color: red;
@@ -125,56 +124,68 @@ main {
             justify-content: center;
             padding: 16px;
             height: 100%;
+            max-height: 194px;
+            width: 100%;
+            overflow: hidden;
+            border-radius: 16px;
             .data-container{
                 display: flex;
                 flex-direction: column;
                 align-items: center;
                 justify-content: center;
-                margin-right: 16px;
+                gap: 16px;
                 .calendar-tie{
                     display: flex;
                     align-items: center;
                     justify-content: center;
                     gap: 16px;
-                    margin-bottom: 16px;
-                    .laber-calendar{
+                    width: 100%;
+                    .label-calendar{
                         display: flex;
                         align-items: center;
                         justify-content: center;
-                        margin-bottom: 16px;
-
+                        flex-direction: column;
                         label {
-                            margin-bottom: 0;
-                            font-size: 16px;
+                            margin: 0 0 2px 0;
+                            font-size: 20px;
+                            font-family: "Bebas Neue", sans-serif;
                         }
-                            #dataFinal{
-                                border-radius: 8px;
-                                border: 1px solid grey;
-                                padding: 8px;
-                                color: #2C3E50;
-                                font-size: 16px;
-                                background-color: #ECF0F1;
-                                width: 10%;
-                                &:focus{
-                                    outline: none;
-                                }
+                        .input-data{
+                            width: 82px;
+                            outline: none;
+                            border: none;
+                            &:focus{
+                                outline: none;
                             }
                         }
+                    }
                 }
-                .switch-cotacao{
+                .btn-sw{
                     display: flex;
+                    width: 100%;
+                    gap: 16px;
                     align-items: center;
-                    justify-content: center;
+                    .switch-cotacao{
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        width: 100%;
+                    }
                 }
             }
-
+            
             .btnPesquisar{
-                margin-left: 20px;
-                align-self: center;
+                display: flex;
+                align-items: center;
+                justify-content: center;
                 border-radius: 8px;
                 border: none;
                 background-color: #FF8614;
                 color: #FFFFFF;
+                max-width: 82px;
+                min-width: 82px;
+                height: 38px;
+                margin-bottom: 20px;
                 &:focus{
                     outline: none;
                 }
@@ -183,8 +194,10 @@ main {
     }
 
     .body-container{
-        grid-row: 2;
+        height: 100%;
         display: flex;
+        align-items: flex-start;
+        justify-content: center;
         overflow-y: auto;
         overflow-x: hidden;
         position: relative;
@@ -244,7 +257,7 @@ main {
             height: 100%;
             width: 100%;
             i{
-                margin-top: -150px;
+                margin-top: -120px;
             }
             i{
                 font-size: 70px;
@@ -294,7 +307,10 @@ main {
 }
 
 ::ng-deep mat-slide-toggle {
-    height: 100% !important;	
+    height: 35px !important;
+    align-items: center !important;
+    display: flex !important;
+    margin-bottom: 0;	
     &.mat-checked {
       .mat-slide-toggle-bar {
         background-color: #ebbe94 !important;
@@ -303,35 +319,38 @@ main {
         background-color: #ff8614 !important;
       }
     }
+    .mat-slide-toggle-label {
+        display: flex;
+        flex-direction: row;
+        height: 100%;
+        align-items: flex-end !important;
+        margin-bottom: 0;
+
+        .mat-slide-toggle-content{
+            text-align: center !important;
+            letter-spacing: .19px;
+            font-family: "Bebas Neue", sans-serif;
+            white-space: nowrap !important;
+            line-height: 1 !important;
+            font-size: 20px;
+            margin-bottom: -2px;
+        }
+    }
   }
   
-  @media screen and (max-width: 600px) {
-    ::ng-deep mat-slide-toggle {
-        height: 100% !important;
-        align-items: center !important;
-        display: flex !important;
-    }
+  @media screen and (min-width: 600px) {
     ::ng-deep .mat-slide-toggle-label {
       display: flex;
-      height: 100% !important;
-      flex-direction: column !important;
+      width: 100% !important;
       justify-content: center !important;
       .mat-slide-toggle-bar{
-        margin-bottom: 8px;
+        margin-right: 8px;
       }
-      .mat-slide-toggle-content{
-        text-align: center !important;
-        letter-spacing: .19px;
-      }
-    }
-  
-    ::ng-deep .mat-slide-toggle-content {
-      white-space: wrap !important;
     }
   
     ::ng-deep .mat-slide-toggle-label {
       display: flex;
-      flex-direction: column;
+      flex-direction: row;
       height: 100%;
     }
   }

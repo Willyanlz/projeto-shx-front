@@ -24,16 +24,26 @@ export class AppComponent implements OnInit {
   constructor(
     private cotacaoDolarService: CotacaoDolarService,
     private dateFormat: DatePipe
-  ) {}
+  ) {
+    this.getDiaAnterior(); 
+  }
   
   async ngOnInit(): Promise<void> {
-    await this.getCotacaoAtual();
-    await this.getDiaAnterior();
-    this.hoje = this.dateFormat.transform(new Date(), "yyyy-MM-dd") || '';
+    await this.getCotacaoAtual(); 
+    this.initDatas();
+  }
+
+  public initDatas(): void {
     const month = new Date().getMonth();
     const year = new Date().getFullYear();
     this.dataInicial = this.dateFormat.transform(new Date(year, month, 1), "yyyy-MM-dd") || '';
-    this.dataFinal = this.dateFormat.transform(new Date(), "yyyy-MM-dd") || ''; 
+    this.dataFinal = this.dateFormat.transform(new Date(), "yyyy-MM-dd") || '';
+    this.hoje = this.dateFormat.transform(new Date(), "yyyy-MM-dd") || '';
+  }
+
+  public bugMoedaAtual(): void {
+    this.openModal("Erro", `Valor do dia ${this.dateFormat.transform(new Date(), "dd/MM/yyyy")} indisponível no momento, exibiremos o valor mais recente disponível.`);
+    this.cotacaoAtual = this.diaAnterior;
   }
 
   public async getCotacaoAtual(): Promise<void> {
@@ -41,6 +51,8 @@ export class AppComponent implements OnInit {
       const c: Cotacao = await this.cotacaoDolarService.getCotacaoAtual().toPromise();
       if(c && c.preco != null){
         this.cotacaoAtual = c.preco;
+      }else{
+        this.bugMoedaAtual();
       }
     } catch (error) {
       this.openModal("Erro ao obter cotação atual", "Por favor tente novamente mais tarde.");
@@ -51,6 +63,7 @@ export class AppComponent implements OnInit {
     this.loading = true;
     if(!this.valideDate()){
       this.openModal("Erro", "Insira uma data valida!");
+      this.initDatas();
       this.loading = false;
       return;
     }
@@ -86,11 +99,9 @@ export class AppComponent implements OnInit {
 
   public async getDiaAnterior(): Promise<void> {
     try {
-      const c: Cotacao[] = await this.cotacaoDolarService.getDiaAnterior().toPromise();
-      if(c){
-        c.forEach((el: Cotacao) => {
-          this.diaAnterior = el.preco;
-        });
+      const res: Cotacao = await this.cotacaoDolarService.getDiaAnterior().toPromise();
+      if(res && res.preco != null){
+        this.diaAnterior = res.preco;
       }
     } catch (error) {
       console.log("Erro ao obter cotação do dia anterior. Por favor tente novamente mais tarde.");

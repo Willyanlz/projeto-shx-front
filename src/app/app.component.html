@@ -1,22 +1,19 @@
 <main>
   <section class="header-container">
     <div class="header">
-      <div class="valor-atual">
-        <h1>
-          Cotação do Dólar &nbsp; R$ 
-          <span>
-            {{ cotacaoAtual.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}}
-            <i class="bi" [ngClass]="{'bi-caret-up-fill': +cotacaoAtual > diaAnterior, 'bi-caret-down-fill': +cotacaoAtual < diaAnterior}"></i>
-          </span>
-        </h1>
-      </div>
+      <h1> Cotação do Dólar </h1>
+        <span>
+          R$
+          {{ cotacaoAtual.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}}
+          <i class="bi" [ngClass]="{'bi-caret-up-fill': +cotacaoAtual > diaAnterior, 'bi-caret-down-fill': +cotacaoAtual < diaAnterior}"></i>
+        </span>
     </div>
     
     <div class="buscarPorPeriodo">
       <div class="data-container">
         <div class="calendar-tie">
           <div class="label-calendar">
-            <label class="mr-3" for="dataInicial">Data inicial:</label>
+            <label for="dataInicial">Data inicial:</label>
             <input
               class="input-data"
               id="dataInicial"
@@ -29,7 +26,7 @@
             >
           </div>
           <div class="label-calendar">
-            <label class="mr-3" for="dataFinal">Data final:</label>
+            <label for="dataFinal">Data final:</label>
             <input
               class="input-data"
               id="dataFinal"
@@ -47,18 +44,18 @@
             (change)="toggleMenorAtual($event)"
             class="custom-slide-toggle"
           >
-            Somente menores que a cotação atual
+            Valores abaixo da cotação atual
           </mat-slide-toggle>
         </div>
       </div>
-      <button 
-        mat-raised-button 
-        type="submit" 
-        class="btnPesquisar" 
-        (click)="getCotacaoPorPeriodo(dataInicial, dataFinal)" 
-        > 
-          Pesquisar 
-        </button>
+      <button
+        mat-raised-button
+        type="submit"
+        class="btnPesquisar"
+        (click)="getCotacaoPorPeriodo(dataInicial, dataFinal)"
+      >
+        Pesquisar
+      </button>
     </div>
   </section>
   
@@ -68,7 +65,7 @@
       class="table table-striped"
       [ngStyle]="{
         'height.px': (cotacaoPorPeriodoLista.length * 46) + 46,
-        'max-height.px': ((cotacaoPorPeriodoLista.length * 46) + 46) - 184 
+        'max-height.px': ((cotacaoPorPeriodoLista.length * 46) + 46) - 400 
       }"
     >
       <thead>

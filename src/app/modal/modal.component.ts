@@ -13,6 +13,9 @@ export class ModalComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     document.addEventListener('keydown', this.handleKeyDown.bind(this));
+    setTimeout(() => {
+      this.closeModal();
+    }, 15000);
   }
 
   closeModal(): void {
