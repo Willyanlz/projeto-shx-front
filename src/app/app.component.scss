@@ -12,6 +12,7 @@ main {
                 h1{
                     font-size: 50px !important;
                 }
+
                 span{
                     font-size: 50px !important;
                     gap: 8px !important;
@@ -97,6 +98,7 @@ main {
                 line-height: 35px;
                 margin-right: 8px;
             }
+
             span{
                 white-space: nowrap;
                 align-items: center;
@@ -152,6 +154,7 @@ main {
                         }
                         .input-data{
                             width: 82px;
+                            height: 40px;
                             outline: none;
                             border: none;
                             &:focus{

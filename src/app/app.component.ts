@@ -25,7 +25,6 @@ export class AppComponent implements OnInit {
     private cotacaoDolarService: CotacaoDolarService,
     private dateFormat: DatePipe
   ) {
-    this.getDiaAnterior(); 
   }
   
   async ngOnInit(): Promise<void> {
@@ -42,11 +41,12 @@ export class AppComponent implements OnInit {
   }
 
   public bugMoedaAtual(): void {
-    this.openModal("Erro", `Valor do dia ${this.dateFormat.transform(new Date(), "dd/MM/yyyy")} indisponível no momento, exibiremos o valor mais recente disponível.`);
     this.cotacaoAtual = this.diaAnterior;
+    this.openModal("Erro", `Valor do dia ${this.dateFormat.transform(new Date(), "dd/MM/yyyy")} indisponível no momento, exibiremos o valor mais recente disponível.`);
   }
 
   public async getCotacaoAtual(): Promise<void> {
+    await this.getDiaAnterior();
     try {
       const c: Cotacao = await this.cotacaoDolarService.getCotacaoAtual().toPromise();
       if(c && c.preco != null){
@@ -54,6 +54,7 @@ export class AppComponent implements OnInit {
       }else{
         this.bugMoedaAtual();
       }
+
     } catch (error) {
       this.openModal("Erro ao obter cotação atual", "Por favor tente novamente mais tarde.");
     }
@@ -62,7 +63,6 @@ export class AppComponent implements OnInit {
   public async getCotacaoPorPeriodo( dataInicialString: string, dataFinalString: string ): Promise<void> {
     this.loading = true;
     if(!this.valideDate()){
-      this.openModal("Erro", "Insira uma data valida!");
       this.initDatas();
       this.loading = false;
       return;
@@ -116,7 +116,11 @@ export class AppComponent implements OnInit {
     if (this.dataInicial && this.dataFinal) {
       const dataInicial = new Date(this.dataInicial);
       const dataFinal = new Date(this.dataFinal);
-      if ((dataInicial > dataFinal) || (dataFinal > new Date() || dataInicial > new Date())) {
+      if ((dataInicial > dataFinal)) {
+        this.openModal("Erro", "Data inicial não podem ser maior que data final!");
+        return false;
+      }else if(dataFinal > new Date() || dataInicial > new Date()){
+        this.openModal("Erro", "Nenhuma das datas pode ser maior que a data atual!");
         return false;
       }else{
         return true;
