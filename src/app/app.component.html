@@ -1,44 +1,58 @@
 <main>
   <section class="header-container">
-    <div class="header mt-4">
-      <h1>Cotação do Dólar - R$ {{ cotacaoAtual.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) }}</h1>
+    <div class="header">
+      <div class="valor-atual">
+        <h1>
+          Cotação do Dólar &nbsp; R$ 
+          <span>
+            {{ cotacaoAtual.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}}
+            <i class="bi" [ngClass]="{'bi-caret-up-fill': +cotacaoAtual > diaAnterior, 'bi-caret-down-fill': +cotacaoAtual < diaAnterior}"></i>
+          </span>
+        </h1>
+      </div>
     </div>
     
     <div class="buscarPorPeriodo">
       <div class="data-container">
         <div class="calendar-tie">
-          <label class="mr-3" for="dataInicial">Data inicial:</label>
-          <input
-            class="input-data"
-            id="dataInicial"
-            type="date"
-            name="dataInicial"
-            [max]="hoje"
-            [(ngModel)]="dataInicial"
-          >
-          <label class="mr-3" for="dataFinal">Data final:</label>
-          <input
-            class="input-data"
-            id="dataFinal"
-            type="date"
-            name="dataFinal"
-            [max]="hoje"
-            [min]="dataInicial"
-            [(ngModel)]="dataFinal"
-          >
+          <div class="label-calendar">
+            <label class="mr-3" for="dataInicial">Data inicial:</label>
+            <input
+              class="input-data"
+              id="dataInicial"
+              type="date"
+              name="dataInicial"
+              [max]="hoje"
+              [(ngModel)]="dataInicial"
+              style="border-radius: 8px; padding: 8px; font-size: 16px;  color: #2C3E50;"
+
+            >
+          </div>
+          <div class="label-calendar">
+            <label class="mr-3" for="dataFinal">Data final:</label>
+            <input
+              class="input-data"
+              id="dataFinal"
+              type="date"
+              name="dataFinal"
+              [max]="hoje"
+              [min]="dataInicial"
+              [(ngModel)]="dataFinal"
+              style="border-radius: 8px; padding: 8px; font-size: 16px;  color: #2C3E50;"
+            >
+          </div>
         </div>
         <div class="switch-cotacao">
           <mat-slide-toggle
             (change)="toggleMenorAtual($event)"
-            color="primary"
+            class="custom-slide-toggle"
           >
-            Exibir somente valores menores do que a cotação atual
+            Somente menores que a cotação atual
           </mat-slide-toggle>
         </div>
       </div>
       <button 
         mat-raised-button 
-        color="primary" 
         type="submit" 
         class="btnPesquisar" 
         (click)="getCotacaoPorPeriodo(dataInicial, dataFinal)" 
@@ -50,8 +64,12 @@
   
   <div class="body-container">
     <table 
-      *ngIf="cotacaoPorPeriodoLista.length > 0" 
+      *ngIf="cotacaoPorPeriodoLista.length > 0 && !loading" 
       class="table table-striped"
+      [ngStyle]="{
+        'height.px': (cotacaoPorPeriodoLista.length * 46) + 46,
+        'max-height.px': ((cotacaoPorPeriodoLista.length * 46) + 46) - 184 
+      }"
     >
       <thead>
         <tr>
@@ -64,7 +82,7 @@
         <tr  *ngFor="let item of cotacaoPorPeriodoLista; let i = index" [class.table-active]="i % 2 !== 0">
           <td>{{item.data}}</td>
           <td>R$ {{item.preco.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}}</td>
-          <td (click)="openModal()">
+          <td>
             <span class="diferenca">
               <i class="bi" [ngClass]="{'bi-caret-up-fill': +item.diferenca > 0, 'bi-caret-down-fill': +item.diferenca < 0}"></i>
               R$ {{ item.diferenca.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) }}
@@ -73,10 +91,29 @@
         </tr>
       </tbody>
     </table>
+    <div class="not-register" *ngIf="cotacaoPorPeriodoLista.length === 0 && !loading">
+      <i class="bi bi-exclamation-triangle"></i>
+      <p class="text-center">Nenhum registro encontrado</p>
+    </div>
+    <div *ngIf="loading" class="loader-container">
+       <img src="./assets/img/logo-shx.png" alt="log-shx">
+    </div>
   </div>
+
   
   <app-modal
-    *ngIf="modal  "
+    *ngIf="modal.open"
+    [title]="modal.title"
+    [msg]="modal.msg"
     (close)="closeModal()"
-  ></app-modal>
+  >
+    <button 
+      mat-raised-button 
+      color="primary"
+      class="btnCloseModal" 
+      (click)="closeModal()" 
+    > 
+      Okay
+    </button>
+  </app-modal>
 </main>

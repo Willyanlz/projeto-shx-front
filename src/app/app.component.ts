@@ -2,18 +2,14 @@ import { DatePipe } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Cotacao, Modal } from './cotacao';
 import { CotacaoDolarService } from './cotacaodolar.service';
-import { Subscription } from 'rxjs';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
-import { ModalComponent } from './modal/modal.component';
-
-
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent implements OnInit, OnDestroy {
+export class AppComponent implements OnInit {
   cotacaoAtual: number = 0;
   cotacaoPorPeriodoLista: Cotacao[] = [];
   dataInicial: string = '';
@@ -21,17 +17,18 @@ export class AppComponent implements OnInit, OnDestroy {
   hoje: string = '';
   diferenca: string = '';
   menorAtual: boolean = false;
-  subscription: Subscription = new Subscription();
   modal: Modal = new Modal;
   loading: boolean = false;
+  diaAnterior: number = 0;
   
   constructor(
     private cotacaoDolarService: CotacaoDolarService,
     private dateFormat: DatePipe
   ) {}
   
-  ngOnInit() {
-    this.getCotacaoAtual();
+  async ngOnInit(): Promise<void> {
+    await this.getCotacaoAtual();
+    await this.getDiaAnterior();
     this.hoje = this.dateFormat.transform(new Date(), "yyyy-MM-dd") || '';
     const month = new Date().getMonth();
     const year = new Date().getFullYear();
@@ -40,40 +37,68 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   public async getCotacaoAtual(): Promise<void> {
-    this.loading = true;
     try {
       const c: Cotacao = await this.cotacaoDolarService.getCotacaoAtual().toPromise();
       if(c && c.preco != null){
         this.cotacaoAtual = c.preco;
       }
     } catch (error) {
-      this.openModal("Teste", "testando123");
+      this.openModal("Erro ao obter cotação atual", "Por favor tente novamente mais tarde.");
     }
   }
 
-  public getCotacaoPorPeriodo( dataInicialString: string, dataFinalString: string ): void {
+  public async getCotacaoPorPeriodo( dataInicialString: string, dataFinalString: string ): Promise<void> {
+    this.loading = true;
+    if(!this.valideDate()){
+      this.openModal("Erro", "Insira uma data valida!");
+      this.loading = false;
+      return;
+    }
 
-    if(this.valideDate()){
+    try {
       this.cotacaoPorPeriodoLista = [];
       const dataInicial = this.dateFormat.transform(dataInicialString, "MM-dd-yyyy") || '';
       const dataFinal = this.dateFormat.transform(dataFinalString, "MM-dd-yyyy") || '';
+      
+      const res: Cotacao[] = await this.cotacaoDolarService.getCotacaoPorPeriodoFront(dataInicial, dataFinal, this.menorAtual).toPromise();
 
-      this.subscription.add(
-        this.cotacaoDolarService.getCotacaoPorPeriodoFront(dataInicial, dataFinal, this.menorAtual).subscribe(cotacoes => {
-          this.cotacaoPorPeriodoLista = cotacoes;
-          this.cotacaoPorPeriodoLista.forEach((el: Cotacao) => {
-            el.diferenca = el.preco - this.cotacaoAtual;
-          });
-        })
-      )
-    } else {
-      this.openModal("Teste", "testando123");
+      if(res){
+        this.cotacaoPorPeriodoLista = res;
+        this.cotacaoPorPeriodoLista.forEach((el: Cotacao) => {
+          el.diferenca = el.preco - this.cotacaoAtual;
+        });
+      }
+      if(this.cotacaoPorPeriodoLista.length == 0){
+        this.openModal("Erro", "Nenhum dado encontrado para o periodo informado!");
+      }
+    }catch (error) {
+      if(this.menorAtual){
+        this.openModal("Erro", "Nenhum dado encontrado pois valor atual não foi encontrado!");
+      }else{
+        this.openModal("Erro", "Tivemos um erro ao obter os dados!");
+      }
+    }finally{
+      setTimeout(() => {
+        this.loading = false;
+      }, 2000);
+    }
+  }
+
+  public async getDiaAnterior(): Promise<void> {
+    try {
+      const c: Cotacao[] = await this.cotacaoDolarService.getDiaAnterior().toPromise();
+      if(c){
+        c.forEach((el: Cotacao) => {
+          this.diaAnterior = el.preco;
+        });
+      }
+    } catch (error) {
+      console.log("Erro ao obter cotação do dia anterior. Por favor tente novamente mais tarde.");
     }
   }
 
   toggleMenorAtual(event: MatSlideToggleChange): void{
     this.menorAtual = event.checked;
-    console.log(this.menorAtual);
   }
 
   public valideDate(): boolean {
@@ -86,23 +111,21 @@ export class AppComponent implements OnInit, OnDestroy {
         return true;
       }
     }
-    
     return false;
   }
 
-  public closeModal(): void {
+  public closeModal(reload?: boolean): void {
     this.modal.open = false;
     this.modal.title = '';
     this.modal.msg = '';
+    if(reload){
+      window.location.reload();
+    }
   }
 
   public openModal(title: string, msg: string): void {
     this.modal.open = true;
     this.modal.title = title;
     this.modal.msg = msg;
-  }
-  
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
   }
 }
