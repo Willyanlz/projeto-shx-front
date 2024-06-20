@@ -70,15 +70,15 @@
     >
       <thead>
         <tr>
-          <th scope="col">Data</th>
-          <th scope="col">Preço</th>
-          <th scope="col">Diferença</th>
+          <th scope="col" class="col">Data</th>
+          <th scope="col" class="col">Preço</th>
+          <th scope="col" class="col">Diferença</th>
         </tr>
       </thead>
       <tbody>
-        <tr  *ngFor="let item of cotacaoPorPeriodoLista; let i = index" [class.table-active]="i % 2 !== 0">
-          <td>{{item.data}}</td>
-          <td>R$ {{item.preco.toLocaleString('pt-BR', { minimumFractionDigits: 3, maximumFractionDigits: 3 })}}</td>
+        <tr *ngFor="let item of cotacaoPorPeriodoLista; let i = index" [class.table-active]="i % 2 !== 0">
+          <td>{{item.data + ' - ' + item.hora}}</td>
+          <td id="preco">R$ {{item.preco.toLocaleString('pt-BR', { minimumFractionDigits: 3, maximumFractionDigits: 3 })}}</td>
           <td>
             <span class="diferenca">
               <i class="bi" [ngClass]="{'bi-caret-up-fill': item.preco < this.cotacaoAtual, 'bi-caret-down-fill': item.preco > this.cotacaoAtual, 'bi-pause-fill': item.preco == this.cotacaoAtual}"></i>

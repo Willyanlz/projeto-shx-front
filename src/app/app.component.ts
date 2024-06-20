@@ -78,6 +78,7 @@ export class AppComponent implements OnInit {
 
       if(res){
         this.cotacaoPorPeriodoLista = res;
+        console.table(this.cotacaoPorPeriodoLista)
         this.cotacaoPorPeriodoLista.forEach((el: Cotacao) => {
           el.diferenca = Math.abs(el.preco - this.cotacaoAtual);
         });

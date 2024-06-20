@@ -78,7 +78,11 @@ main {
                     }
                 }
             }
-
+        }
+        .body-container{
+            .col {
+                width: 33%;
+            }
         }
     }
 
@@ -242,12 +246,15 @@ main {
                         border-right: none;
                     }
                 }
+                #preco{
+                    white-space: nowrap;
+                }
             }
             .diferenca{
                 display: flex;
                 align-items: center;
                 justify-content: center;
-
+                white-space: nowrap;
                 .bi{
                     font-size: 20px;
                     margin-right: 8px;
