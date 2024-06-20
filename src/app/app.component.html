@@ -4,7 +4,7 @@
       <h1> Cotação do Dólar </h1>
         <span>
           R$
-          {{ cotacaoAtual.toLocaleString('pt-BR', { minimumFractionDigits: 3, maximumFractionDigits: 3 })}}
+          {{ cotacaoAtual.toLocaleString('pt-BR', { minimumFractionDigits: 4, maximumFractionDigits: 4 })}}
           <i class="bi" [ngClass]="{'bi-caret-up-fill': +cotacaoAtual > diaAnterior, 'bi-caret-down-fill': +cotacaoAtual < diaAnterior}"></i>
         </span>
     </div>
@@ -78,11 +78,11 @@
       <tbody>
         <tr *ngFor="let item of cotacaoPorPeriodoLista; let i = index" [class.table-active]="i % 2 !== 0">
           <td>{{item.data + ' - ' + item.hora}}</td>
-          <td id="preco">R$ {{item.preco.toLocaleString('pt-BR', { minimumFractionDigits: 3, maximumFractionDigits: 3 })}}</td>
+          <td id="preco">R$ {{item.preco.toLocaleString('pt-BR', { minimumFractionDigits: 4, maximumFractionDigits: 4 })}}</td>
           <td>
             <span class="diferenca">
               <i class="bi" [ngClass]="{'bi-caret-up-fill': item.preco < this.cotacaoAtual, 'bi-caret-down-fill': item.preco > this.cotacaoAtual, 'bi-pause-fill': item.preco == this.cotacaoAtual}"></i>
-              {{'R$ ' + item.diferenca.toLocaleString('pt-BR', { minimumFractionDigits: 3, maximumFractionDigits: 3 })}}
+              {{'R$ ' + item.diferenca.toLocaleString('pt-BR', { minimumFractionDigits: 4, maximumFractionDigits: 4 })}}
             </span>
           </td>
         </tr>
