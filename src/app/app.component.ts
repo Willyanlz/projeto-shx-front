@@ -52,7 +52,7 @@ export class AppComponent implements OnInit {
       if(c && c.preco != null){
         this.cotacaoAtual = c.preco;
       }else{  
-        // this.bugMoedaAtual();
+        this.bugMoedaAtual();
       }
 
     } catch (error) {
