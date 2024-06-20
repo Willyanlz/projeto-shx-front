@@ -51,7 +51,7 @@ export class AppComponent implements OnInit {
       const c: Cotacao = await this.cotacaoDolarService.getCotacaoAtual().toPromise();
       if(c && c.preco != null){
         this.cotacaoAtual = c.preco;
-      }else{
+      }else{  
         this.bugMoedaAtual();
       }
 
@@ -79,7 +79,7 @@ export class AppComponent implements OnInit {
       if(res){
         this.cotacaoPorPeriodoLista = res;
         this.cotacaoPorPeriodoLista.forEach((el: Cotacao) => {
-          el.diferenca = el.preco - this.cotacaoAtual;
+          el.diferenca = Math.abs(el.preco - this.cotacaoAtual);
         });
       }
       if(this.cotacaoPorPeriodoLista.length == 0){
