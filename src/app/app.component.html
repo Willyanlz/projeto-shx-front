@@ -39,23 +39,23 @@
             >
           </div>
         </div>
-        <div class="switch-cotacao">
+        <div class="switch-search">
           <mat-slide-toggle
             (change)="toggleMenorAtual($event)"
             class="custom-slide-toggle"
           >
             Valores abaixo da cotação atual
           </mat-slide-toggle>
+          <button
+            mat-raised-button
+            type="submit"
+            class="btnPesquisar"
+            (click)="getCotacaoPorPeriodo(dataInicial, dataFinal)"
+          >
+            Pesquisar
+          </button>
         </div>
       </div>
-      <button
-        mat-raised-button
-        type="submit"
-        class="btnPesquisar"
-        (click)="getCotacaoPorPeriodo(dataInicial, dataFinal)"
-      >
-        Pesquisar
-      </button>
     </div>
   </section>
   
